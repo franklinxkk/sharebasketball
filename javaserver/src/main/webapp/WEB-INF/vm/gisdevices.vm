@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+	</style>
+</head>
+<body>
+#parse("navigation.vm")
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+var url=window.location.href;  
+var addr = url.substring(0,url.indexOf('bblq'));
+	// 百度地图API功能	
+	map = new BMap.Map("allmap");		   
+	map.centerAndZoom(new BMap.Point(104.194374,30.833466), 6);
+	map.enableDragging();
+	map.enableScrollWheelZoom();
+	map.enableDoubleClickZoom();
+	map.enableKeyboard();
+	var data_info;
+	getFormLine();
+	function getFormLine() {
+	jQuery.ajax({
+            url:addr+'bblq/admin/getgisdevices?token=$!{accesstoken}&location=104.194374,30.833466',
+            type:'GET',
+            dataType: 'json',
+            contentType : "multipart/form-data",
+            success:function(data){
+                if(data.state){
+					console.log(data.result);
+                    data_info = data.result;
+					for(var i=0;i<data_info.length;i++){
+						var marker = new BMap.Marker(new BMap.Point(data_info[i][1],data_info[i][0]));  // 创建标注
+						var content = data_info[i][2];
+						map.addOverlay(marker);               // 将标注添加到地图中
+						addClickHandler(content,marker);
+					}
+                }else{
+                    alert(JSON.stringify(data.error));
+                }
+            },
+            error : function(e, text){
+                alert(e.status);
+                alert(text);
+            }
+        });
+    }
+	var opts = {
+				width : 180,     // 信息窗口宽度
+				height: 50,     // 信息窗口高度
+				title : "设备地址" , // 信息窗口标题
+				enableMessage:true//设置允许信息窗发送短息
+			   };
+
+	function addClickHandler(content,marker){
+		marker.addEventListener("click",function(e){
+			openInfo(content,e)}
+		);
+	}
+	function openInfo(content,e){
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	}
+</script>
+
+#include("foot.vm")

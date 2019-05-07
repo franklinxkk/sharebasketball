@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-mqtt="http://www.springframework.org/schema/integration/mqtt"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+        http://www.springframework.org/schema/integration/mqtt http://www.springframework.org/schema/integration/mqtt/spring-integration-mqtt.xsd
+        http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd  ">
+
+	<!-- Scans the classpath of this application for @Components to deploy as 
+		beans -->
+	<context:component-scan base-package="com.bblanqiu" />
+
+	<!-- CUSTOMER OBJECTMAPPER -->
+	<bean id="objectMapperFactory" class="com.bblanqiu.common.jackson.ObjectMapperFactory" />
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"
+		factory-bean="objectMapperFactory" factory-method="getMapper" />
+
+    <!--配置SpringMVC注解对应的内容-->
+    <!--这个是RequestMappingHandlerMapping拦截器，对应即为Controller前面的@RequestMapping注解-->
+    <!--HandlerMapping 作用如下：
+        SpringMVC工作过程中，DispatcherServlet收到请求之后会把请求交给HandlerMapping，
+        HandlerMapping根据配置（此处为注解）找到请求对应的Handler-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
+    <!--这个是RequestMappingHandlerAdapter-->
+    <!--HandlerAdapter 作用如下：
+        SpringMVC工作过程中，HandlerMapping找到Handler，Handler对具体的处理（Controller）进行封装，
+        然后由HandlerAdapter对Handler进行具体处理
+        在这里我们定义了返回对象自动转换为Json数据-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="cacheSeconds" value="0"/>
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJackson2HttpMessageConverter"/>
+                <ref bean="mappingStringHttpMessageConverter"/>
+            </list>
+        </property>
+        <property name="webBindingInitializer" ref="webBindingInitializer">
+        </property>
+    </bean>
+
+    <!--这里就是Spring对http消息格式转换提供的接口-->
+    <bean id="mappingStringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+                <value>application/x-www-form-urlencoded;charset=UTF-8</value>
+                <value>multipart/form-data</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--同上-->
+    <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper" ref="objectMapper" />
+        <property name="supportedMediaTypes">
+            <list>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="application"/>
+                    <constructor-arg index="1" value="json"/>
+                    <constructor-arg index="2" value="UTF-8"/>
+                </bean>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="application"/>
+                    <constructor-arg index="1" value="x-www-form-urlencoded"/>
+                    <constructor-arg index="2" value="UTF-8"/>
+                </bean>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="multipart"/>
+                    <constructor-arg index="1" value="form-data"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--注册转换器到SpringMVC ，并注册在了上面的RequestMappingHandlerAdapter中-->
+    <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <property name="conversionService">
+            <bean class="org.springframework.core.convert.support.DefaultConversionService"></bean>
+        </property>
+    </bean>
+
+	<!-- EXCEPTION HANDLER -->
+	<bean class="com.bblanqiu.common.exception.DefaultExceptionHandler">
+		<constructor-arg ref="objectMapper" />
+	</bean>
+
+	<!-- CONFIG PROPERTIES -->
+	<context:property-placeholder
+		location="classpath:mysql.properties,classpath:sys.properties" />
+	<!-- datasource -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${db.dirverClass}" />
+		<property name="jdbcUrl" value="${db.url}" />
+		<property name="user" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+
+		<!-- <property name="acquireIncrement" value="${c3p0.acquireIncrement}"/> -->
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<property name="maxStatements" value="${c3p0.maxStatements}" />
+		<property name="maxStatementsPerConnection" value="${c3p0.maxStatementsPerConnection}" />
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.bblanqiu.common.mysql.*</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="show_sql">${hibernate.show_sql}</prop>
+				<prop key="format_sql">${hibernate.format_sql}</prop>
+				<prop key="cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<prop key="cache.provider_class">${hibernate.cache.provider_class}</prop>
+				<prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop>
+				<prop key="javax.persistence.validation.mode">none</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="velocityConfig"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/vm/" />
+		<property name="configLocation" value="classpath:velocity.properties" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="suffix" value=".vm" />
+		<property name="cache" value="true" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<!-- <property name="allowSessionOverride" value="true"/> -->
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="toolboxConfigLocation" value="/WEB-INF/vm/toolbox.xml" />
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="2048000" />
+	</bean>
+	<!-- RABBITMQ CONFIG -->
+	<rabbit:connection-factory id="rabbitConnectionFactory"
+		requested-heartbeat="20" host="${mq.host}" port="${mq.port}" username="${mq.username}"
+		password="${mq.password}" />
+
+	<bean id="mqMessageConverter"
+		class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter">
+		<property name="jsonObjectMapper" ref="objectMapper" />
+	</bean>
+	<rabbit:admin connection-factory="rabbitConnectionFactory" />
+	<rabbit:template id="amqpTemplate" connection-factory="rabbitConnectionFactory"
+		message-converter="mqMessageConverter">
+	</rabbit:template>
+	<!-- Redis -->
+	<!-- 配置 redis 连接池 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}">
+		</property>
+		<property name="maxWaitMillis" value="${redis.maxWait}">
+		</property>
+		<!-- 若需要配置其他配置信息 , 可在redis.properties添加 -->
+	</bean>
+
+	<!-- 配置连接工厂 -->
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="${redis.host}"></property>
+		<property name="port" value="${redis.port}"></property>
+		<property name="poolConfig" ref="jedisPoolConfig"></property>
+		<property name="password" value="${redis.pwd}"></property>
+	</bean>
+
+	<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory"></property>
+	</bean>
+	<!-- end of Redis -->
+
+	<bean id="securityFilter" class="com.bblanqiu.filter.SecurityFilter"></bean>
+
+	<!-- interceptors -->
+	<!--<mvc:interceptors> <bean class="xxx.interceptor.ApiInterceptor"/> </mvc:interceptors> -->
+</beans>

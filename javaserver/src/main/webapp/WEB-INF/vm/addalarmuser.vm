@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+							   <form name="myform" id="myform" action="/bblq/admin/addalarmuser" method="post"  enctype="multipart/form-data">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>添加运维人员</tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+										<td >名称</td>
+										<td><input class="form-control" type="text" name="name" id="name" value="" required="required"></td>
+		    						</tr>
+                                     <tr>
+										<td >类型</td>
+										<td><input class="form-control" type="text" name="type" id="type" value="" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >手机号</td>
+										<td><input class="form-control" type="text" name="phone" id="phone" value="" required="required"></td>
+		    						</tr>									
+									</tbody>
+                                </table>
+								<input class="btn btn-lg btn-primary" type="submit" value="添加"><a class="btn btn-lg btn-primary" href="/bblq/admin/getalramusers">返回</a>
+							 </form>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+            </div>
+      </div>                
+</div><!-- row end -->
+</div><!-- main-content end -->
+#include("foot.vm")

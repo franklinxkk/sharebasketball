@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-mqtt="http://www.springframework.org/schema/integration/mqtt"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd
+http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.1.xsd
+        http://www.springframework.org/schema/integration/mqtt http://www.springframework.org/schema/integration/mqtt/spring-integration-mqtt-4.1.xsd">
+	 <context:property-placeholder location="classpath:mongo.properties"/>
+	<bean id="producer" class="com.aliyun.openservices.ons.api.bean.ProducerBean"
+		init-method="start" destroy-method="shutdown">
+		<property name="properties">
+			<!--生产者配置信息 -->
+			<props>
+				<prop key="ProducerId">${almqtt.ProducerId}</prop>
+				<prop key="AccessKey">${almqtt.AccessKey}</prop>
+				<prop key="SecretKey">${almqtt.SecretKey}</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="msgListener" class="demo.DemoMessageListener"></bean> <!--Listener配置 -->
+	<bean id="consumer" class="com.aliyun.openservices.ons.api.bean.ConsumerBean"
+		init-method="start" destroy-method="shutdown">
+		<property name="properties"> <!--消费者配置信息 -->
+			<props>
+				<prop key="ConsumerId">${almqtt.ConsumerId}</prop>
+				<prop key="AccessKey">${almqtt.AccessKey}</prop>
+				<prop key="SecretKey">${almqtt.SecretKey} </prop>
+				<!--将消费者线程数固定为50个 <prop key="ConsumeThreadNums">50</prop> -->
+			</props>
+		</property>
+		<property name="subscriptionTable">
+			<map>
+				<entry value-ref="msgListener">
+					<key>
+						<bean class="com.aliyun.openservices.ons.api.bean.Subscription">
+							<property name="topic" value="TopicTestMQ" />
+							<property name="expression" value="*" /><!--expression即Tag，可以设置成具体的Tag，如 
+								taga||tagb||tagc，也可设置成*。 *仅代表订阅所有Tag，不支持通配 -->
+						</bean>
+					</key>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!--
+	<rabbit:topic-exchange name="flora.exchange.data">
+		<rabbit:bindings>
+			<rabbit:binding pattern="flora.key.data.#" queue="floraDataQueue" />
+		</rabbit:bindings>
+	</rabbit:topic-exchange>
+
+	<rabbit:queue auto-delete="true" durable="false" id="floraDataQueue"
+		name="floraDataQueue"></rabbit:queue>
+
+	<rabbit:listener-container concurrency="5"
+		connection-factory="rabbitConnectionFactory" acknowledge="auto"
+		message-converter="mqMessageConverter">
+		<rabbit:listener ref="dataHandler" queues="floraDataQueue" />
+	</rabbit:listener-container>
+	-->
+
+	<!-- <bean id="mongoSeedListID" class="java.util.ArrayList"> <constructor-arg> 
+		<list> <ref bean="mongoSeedlID" /> </list> </constructor-arg> </bean> <bean 
+		id="mongoSeedlID" class="com.mongodb.ServerAddress"> <constructor-arg type="java.lang.String" 
+		name="host" value="${mongo.url}" /> <constructor-arg type="int" name="port" 
+		value="${mongo.port}" /> </bean> <bean id="mongoCredentialListID" class="java.util.ArrayList"> 
+		<constructor-arg> <list> <ref bean="mongoCredentialID" /> </list> </constructor-arg> 
+		</bean> <bean id="mongoCredentialID" class="com.mongodb.MongoCredential"> 
+		<constructor-arg name="mechanism" value = "#{T(com.mongodb.AuthenticationMechanism).SCRAM_SHA_1}" 
+		/> <constructor-arg type="java.lang.String" name="userName" value="${mongo.flora.username}" 
+		/> <constructor-arg type="java.lang.String" name="source" value="${mongo.dbname}" 
+		/> <constructor-arg type="char[]" name="password" value="${mongo.password}" 
+		/> </bean> <bean id="mongoClientID" class="com.mongodb.MongoClient"> <constructor-arg 
+		ref="mongoSeedListID" /> <constructor-arg ref="mongoCredentialID" /> </bean> 
+		<bean id="simpleMongoDbFactoryID" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory"> 
+		<constructor-arg ref="mongoClientID" /> <constructor-arg name="databaseName" 
+		value="${mongo.dbname}" /> </bean> <bean id="mongoTemplateID" class="org.springframework.data.mongodb.core.MongoTemplate"> 
+		<constructor-arg ref="simpleMongoDbFactoryID" /> </bean> -->
+
+
+</beans>

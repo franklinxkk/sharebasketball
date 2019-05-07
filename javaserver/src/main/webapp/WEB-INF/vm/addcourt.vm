@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+							   <form name="myform" id="myform" action="/bblq/admin/addcourt" method="post"  enctype="multipart/form-data">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>场馆录入</tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+										<td >名称</td>
+										<td><input class="form-control" type="text" name="name" id="name" value="" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >图片</td>
+										<td><input class="form-control" type="file" name="file" id="file" value="" multiple="multiple"></td>
+		    						</tr>									
+                                    <tr>
+										<td >运营</td>
+										<td>
+											<select name="operate">
+												<option value="1">周一到周五</option>	
+												<option selected="selected" value="2">周一到周天</option>	
+												<option value="3">周一到周六</option>	
+											</select>
+										</td>											
+		    						</tr>
+                                    <tr>
+										<td >营业开始时间</td>
+										<td><input type="text" name="startTime" id="startTime" value="8:00:00" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >营业结束时间</td>
+										<td><input type="text" name="endTime" id="endTime" value="20:00:00" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >场馆类型</td>
+										<td>
+											<select name="type">
+												<option value="1">室内/免费</option>	
+												<option selected="selected" value="2">室外/免费</option>	
+												<option value="3">室内/收费</option>	
+												<option value="4">室外/收费</option>	
+											</select>
+										</td>
+		    						</tr>
+                                    <tr>
+										<td >所在经度</td>
+										<td><input type="text" class="form-control" name="longitude" id="longitude" value="" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >所在纬度</td>
+										<td><input type="text" class="form-control" name="latitude" id="latitude" value="" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >省</td>
+										<td><input type="text" name="province" id="province" value="" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >市</td>
+										<td><input type="text" name="city" id="city" value="" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >区</td>
+										<td><input type="text" name="district" id="district" value="" required="required"></td>
+		    						</tr>
+									<tr>
+										<td width="100" align="right">管理</td>
+										<td><textarea  rows="5" cols="70" id="detail" name="detail" ></textarea></td>
+									</tr>	
+									</tbody>
+                                </table>
+								<input class="btn btn-lg btn-primary" type="submit" value="录入"><a class="btn btn-lg btn-primary" href="/bblq/admin/getcourts">返回</a>
+							 </form>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+            </div>
+      </div>                
+</div><!-- row end -->
+</div><!-- main-content end -->
+#include("foot.vm")

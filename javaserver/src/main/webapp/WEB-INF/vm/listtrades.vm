@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+<td><input type="hidden" name="page" id="page" value="$!{page}"></td>
+					<td><input type="hidden" name="count" id="count" value="$!{count}"></td>
+					<td><input type="hidden" name="total" id="total" value="$!{total}"></td>
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <!--<div class="panel-heading">
+                             Advanced Tables
+                        </div>-->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>交易编号</th>
+                                            <th>用户</th>
+                                            <th>设备序列号</th>
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>类型</th>
+                                            <th>篮球序列号</th>
+											<th>储物箱编号</th>
+											<th>消费</th>
+											<th>状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										#foreach($one in $list)
+											<tr class="odd gradeX">
+												<td>$!one.id</td>
+												<td>$!one.phone</td>
+												<td>$!one.deviceSn</td>
+												<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!one.startTime)</td>
+												<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!one.endTime)</td>
+												<td>#if($one.type==1) 篮球 #else 储物 #end</td>
+												<td>$!one.ballSn</td>
+												<td>$!one.num</td>
+												<td>$!one.consume 元</td>
+												<td>#if($one.state==0) 正在进行 #else 已结束 #end</td>
+											</tr>
+										#end                                                                             
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+</div><!-- row end -->
+</div><!-- main-content end -->
+<script type="text/javascript">
+	var cpage = document.getElementById("page").value;
+	var count = document.getElementById("count").value;
+	var total = document.getElementById("total").value;
+	var url=window.location.href;  
+	var addr = url.substring(0,url.indexOf('bblq'));
+//生成分页控件  
+kkpager.generPageHtml({
+    pno : cpage,
+    mode : 'link', //可选，默认就是link
+    //总页码  
+    total : total,  
+    //总数据条数  
+    totalRecords : count,  
+    //链接算法
+    getLink : function(n){
+        //这里是默认算法，算法适用于比如：
+
+        if(n == 1){
+            return addr+'bblq/admin/gettrades?page='+n;
+        }                
+        return addr+'bblq/admin/gettrades?page='+n;
+    }
+
+});
+</script>	
+#include("foot.vm")

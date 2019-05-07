@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+							   <form name="myform" id="myform" action="/bblq/admin/adddevice" method="post"  enctype="multipart/form-data">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>设备批量录入</tr>
+                                    </thead>
+                                    <tbody>
+									<tr>
+										<a href="http://ops718719.bkt.clouddn.com/deviceOrbasketball.xls" >批量导入模板excel下载</a>
+		    						</tr>
+                                    <tr>
+										<td >请上传设备序列号文件:</td>
+										<td><input type="file" name="file" id="file" value="" multiple="multiple" required="required"></td>
+		    						</tr>
+									<tr>
+										<td >设备类型:</td>
+										<td>
+											<select name="type1">
+												<option selected="selected" value="1">八拜一代设备</option>	
+											</select>
+										</td>
+		    						</tr>
+									<tr>
+										<td >场馆标识:</td>
+										<td><input type="text" name="courtid" id="courtid" value="" required="required"></td>
+		    						</tr> 									
+									<tr>
+										<td >场馆名称:</td>
+										<td><input type="text" name="courtname" id="courtname" value="" required="required"></td>
+		    						</tr> 
+									<tr>
+										$!{addinfo}
+		    						</tr>
+									</tbody>
+                                </table>
+								<input class="btn btn-lg btn-primary" type="submit" value="开始录入"><a class="btn btn-lg btn-primary" href="/bblq/admin/getdevices">取消</a>
+							 </form>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+            </div>
+      </div>                
+</div><!-- row end -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+							   <form name="myform" id="myform" action="/bblq/admin/addbasketball" method="post"  enctype="multipart/form-data">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>篮球批量录入</tr>
+                                    </thead>
+                                    <tbody>
+									<tr>
+										<a href="http://ops718719.bkt.clouddn.com/deviceOrbasketball.xls" >批量导入模板excel下载</a>
+		    						</tr>
+									<tr>
+										<td >篮球类型:</td>
+										<td>
+											<select name="type2">
+												<option selected="selected" value="1">八拜一代篮球</option>	
+											</select>
+										</td>
+		    						</tr>
+                                    <tr>
+										<td >请上传篮球序列号文件:</td>
+										<td><input type="file" name="file" id="file" value="" multiple="multiple" required="required"></td>
+		    						</tr>
+									<tr>
+										$!{addinfo}
+		    						</tr> 
+									</tbody>
+                                </table>
+								<input class="btn btn-lg btn-primary" type="submit" value="开始录入"><a class="btn btn-lg btn-primary" href="/bblq/admin/getdevices">取消</a>
+							 </form>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+            </div>
+      </div>                
+</div><!-- row end -->
+</div><!-- main-content end -->
+#include("foot.vm")

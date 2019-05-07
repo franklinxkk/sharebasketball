@@ -1,0 +1,21 @@
+body {
+	min-width: 1000px;
+}
+
+.welcome {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.welcome h2 {
+	color: #317eac;
+}
+
+.alert {
+	text-align: center;
+}
+
+.user-password,
+.user-name {
+	margin-bottom: 20px;
+}

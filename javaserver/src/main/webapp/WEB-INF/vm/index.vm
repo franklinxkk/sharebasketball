@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<body>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<!-- Statistics -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="widget-container stats-container">
+              <div class="col-md-3">
+                <div class="number">
+                  $!{totalDevice}
+                </div>
+                <div class="text">
+                  设备投放量
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="number">
+                  <div class="icon-visitors"></div>
+                  $!{totalUser}
+                </div>
+                <div class="text">
+                  用户注册量
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="number">
+                  $!{totalBall}
+                </div>
+                <div class="text">
+                  用球交易额
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="number">
+                  $!{totalBox}
+                </div>
+                <div class="text">
+                  储物交易额
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div><!-- end main-content -->
+</div><!-- end modal-shiftfix -->
+</body>
+</html>

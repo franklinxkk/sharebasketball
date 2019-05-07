@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<body class="login2">
+    <!-- Login Screen -->
+    <div class="login-wrapper">
+      <div class="login-container">
+        <a href="#"><img width="40" height="40" src="http://ops718719.bkt.clouddn.com/favicon.ico" /></a>
+        <form name="loginform" method="post" action="/bblq/admin/login" onsubmit="DoSubmit();">
+			<div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-envelope"></i></span><input class="form-control" name="name" placeholder="Username or Email" type="text" required="required">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-lock"></i></span><input class="form-control" name="password" placeholder="Password" type="password" required="required">
+          </div>
+        </div>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="登录">
+  		</form>
+		<div>$!{errorinfo}</div>
+    </div>
+    <!-- End Login Screen -->
+	<script type="text/javascript">
+		  	function DoSubmit(){
+ 				document.loginform.password.value = $.md5(document.loginform.password.value);
+  				return true;
+			}
+     </script>
+  </body>
+</html>
+

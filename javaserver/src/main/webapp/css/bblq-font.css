@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'bblq';
+  src:url('../font/bblq.eot');
+  src:url('../font/bblqd41d.eot?#iefix') format('embedded-opentype'),
+    url('../font/bblq.woff') format('woff'),
+    url('../font/bblq.ttf') format('truetype'),
+    url('../font/bblq.svg#bblq') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+  font-family: 'bblq';
+  content: attr(data-icon);
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="bblq-"] {
+*/
+.bblq-home, .bblq-feed, .bblq-star, .bblq-forms, .bblq-tables, .bblq-charts, .bblq-pages, .bblq-gallery, .bblq-flag, .bblq-envelope, .bblq-gear {
+  font-family: 'bblq';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+.bblq-home:before {
+  content: "\e006";
+}
+.bblq-feed:before {
+  content: "\e002";
+}
+.bblq-star:before {
+  content: "\e003";
+}
+.bblq-forms:before {
+  content: "\e004";
+}
+.bblq-tables:before {
+  content: "\e00a";
+}
+.bblq-charts:before {
+  content: "\e007";
+}
+.bblq-pages:before {
+  content: "\e008";
+}
+.bblq-gallery:before {
+  content: "\e009";
+}
+.bblq-flag:before {
+  content: "\e000";
+}
+.bblq-envelope:before {
+  content: "\e005";
+}
+.bblq-gear:before {
+  content: "\e001";
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+  font-family: 'bblq';
+  src: url('../font/bblq.svg#bblq') format('svg');
+  }
+}

@@ -1,0 +1,40 @@
+<!-- Navigation -->
+      <div class="navbar navbar-fixed-top scroll-hide">
+        <div class="container-fluid main-nav clearfix">
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a #if($!{navNum}==1) class="current" #else   #end href="/bblq/admin/getstatistic">
+				<span aria-hidden="true" class="bblq-home"></span>主页</a>
+              </li>
+              <li><a #if($!{navNum}==2) class="current" #else   #end href="/bblq/admin/getusers">
+                <span aria-hidden="true" class="bblq-charts"></span>用户</a>
+              </li>
+			  <li><a #if($!{navNum}==3) class="current" #else   #end href="/bblq/admin/getdevices">
+                <span aria-hidden="true" class="bblq-gear"></span>设备</a>
+              </li>
+              <li><a #if($!{navNum}==4) class="current" #else   #end href="/bblq/admin/gettrades">
+                <span aria-hidden="true" class="bblq-pages"></span>交易</a>
+              </li>
+              <li><a #if($!{navNum}==5) class="current" #else   #end href="/bblq/admin/getcharges">
+                <span aria-hidden="true" class="bblq-forms"></span>充值</a>
+              </li>
+			  <li><a #if($!{navNum}==6) class="current" #else   #end href="/bblq/admin/getcourts">
+                <span aria-hidden="true" class="bblq-star"></span>场地</a>
+              </li>
+			  <li><a #if($!{navNum}==7) class="current" #else   #end href="/bblq/admin/getalarms">
+                <span aria-hidden="true" class="bblq-flag"></span>告警</a>
+              </li>
+			  <li><a #if($!{navNum}==8) class="current" #else   #end href="/bblq/admin/getalramusers">
+                <span aria-hidden="true" class="bblq-tables"></span>运维</a>
+              </li>
+			  <li><a #if($!{navNum}==9) class="current" #else   #end href="/bblq/admin/toeditscore">
+                <span aria-hidden="true" class="bblq-feed"></span>信用分</a>
+              </li>
+			  <li class="pull-right"><a href="/bblq/admin/logout" >
+					<img width="10" height="10" src="http://7xiqfo.com1.z0.glb.clouddn.com/cms_logout.png" /></a>
+			  </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Navigation -->

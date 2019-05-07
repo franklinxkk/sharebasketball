@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+<td><input type="hidden" name="page" id="page" value="$!{page}"></td>
+					<td><input type="hidden" name="count" id="count" value="$!{count}"></td>
+					<td><input type="hidden" name="total" id="total" value="$!{total}"></td>
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <!--<div class="panel-heading">
+                             Advanced Tables
+                        </div>-->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>编号</th>
+                                            <th>告警类型</th>
+                                            <th>内容</th>
+                                            <th>时间</th>
+											<th>状态</th>
+											<th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    #foreach($one in $list)
+                                    <tr class="odd gradeX">
+										<td>$!one.id</td>
+										<td>
+											#if($!one.type=='1') 姿态告警 
+											#elseif($!one.type=='2') 位置告警
+											#elseif($!one.type=='3') 低电量告警
+											#elseif($!one.type=='4') 球箱状态异常
+											#elseif($!one.type=='5') 储物箱状态异常
+											#elseif($!one.type=='6') 温湿度异常
+											#elseif($!one.type=='7') 篮球与设备不匹配
+											#else 未知
+											#end
+										</td>
+										<td>$!one.alarm</td>
+										<td>$!date.format('yyyy-MM-dd HH:mm',$!one.alarmTime)</td>
+										<td>#if($one.state==0) <font color="red">未处理</font> #else 已处理 #end</td>
+										<td>
+										#if($one.state==0)
+										<a href="/bblq/admin/handlealarm?id=$!{one.id}"onclick="return zhixing();"><font color="#31ACE2">消除告警</font></a>
+										#else  #end
+										</td>
+									</tr>
+        		    				#end                                                                               
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+</div><!-- row end -->
+</div><!-- main-content end -->
+<script type="text/javascript">
+function zhixing() { if(confirm("确认消除告警?" )) return true; return false;  }
+	var cpage = document.getElementById("page").value;
+	var count = document.getElementById("count").value;
+	var total = document.getElementById("total").value;
+	var url=window.location.href;  
+	var addr = url.substring(0,url.indexOf('bblq'));
+//生成分页控件  
+kkpager.generPageHtml({
+    pno : cpage,
+    mode : 'link', //可选，默认就是link
+    //总页码  
+    total : total,  
+    //总数据条数  
+    totalRecords : count,  
+    //链接算法
+    getLink : function(n){
+        //这里是默认算法，算法适用于比如：
+
+        if(n == 1){
+            return addr+'bblq/admin/listalarms?page='+n;
+        }
+        return addr+'bblq/admin/listalarms?page='+n;
+    }
+
+});
+</script>	
+#include("foot.vm")

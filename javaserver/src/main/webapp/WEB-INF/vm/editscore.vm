@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+							   <form name="myform" id="myform" action="/bblq/admin/editscore" method="post"  enctype="multipart/form-data">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>八拜信用分管理</tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+										<td >用户手机号</td>
+										<td><input class="form-control" type="text" name="phone" id="phone" value="$!phone" required="required"></td>
+		    						</tr>
+                                    <tr>
+										<td >处理类型</td>
+										<td>
+											<select name="type">
+												<option #if($type=='101') selected="selected" #end value="101">上报设备故障</option>	
+												<option #if($type=='102') selected="selected" #end value="102">举报违规</option>	
+												<option #if($type=='201') selected="selected" #end value="201">违规行为</option>	
+												<option #if($type=='202') selected="selected" #end value="202">忘关篮球箱，篮球找回</option>
+												<option #if($type=='203') selected="selected" #end value="203">忘关储物柜</option>
+												<option #if($type=='204') selected="selected" #end value="204">忘关篮球箱，篮球丢失</option>
+												<option #if($type=='205') selected="selected" #end value="205">违法行为</option>
+											</select>
+										</td>
+		    						</tr>
+									</tbody>
+                                </table>
+								<input class="btn btn-lg btn-primary" type="submit" value="处理">
+							 </form>
+                            </div>
+                            <div>$!info</div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+            </div>
+      </div>                
+</div><!-- row end -->
+</div><!-- main-content end -->
+#include("foot.vm")

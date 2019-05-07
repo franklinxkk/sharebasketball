@@ -1,0 +1,56 @@
+<title>
+      八拜科技管理平台
+    </title>
+	<link href="${request.getContextPath()}/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="${request.getContextPath()}/css/font-awesome.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="${request.getContextPath()}/css/bblq-font.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="${request.getContextPath()}/css/style.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="${request.getContextPath()}/js/jquery.min.js"></script>
+	</script><script src="${request.getContextPath()}/js/jquery-ui.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/raphael.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.mousewheel.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.vmap.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.vmap.sampledata.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.vmap.world.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.bootstrap.wizard.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/fullcalendar.min.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/gcal.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.dataTables.min.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/datatable-editable.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/jquery.easy-pie-chart.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/excanvas.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.isotope.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/masonry.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/modernizr.custom.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.fancybox.pack.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/select2.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/styleswitcher.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/wysiwyg.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/jquery.inputmask.min.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/jquery.validate.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/bootstrap-fileupload.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/bootstrap-datepicker.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/bootstrap-timepicker.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/bootstrap-colorpicker.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/bootstrap-switch.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/daterange-picker.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/date.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/morris.min.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/skycons.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/jquery.sparkline.min.js" type="text/javascript">
+	</script><script src="${request.getContextPath()}/js/fitvids.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/main.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/respond.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/js/md5.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/kkpager.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/kkpager_blue.css" />
+	<script type="text/javascript">
+	function confirmFunc() { if(confirm("请确认是否执行！" )) return true; return false;  }
+	</script>
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=rM8HbXDhaPyKypOpDjTjdozQ"></script>
+	<script language="javascript" type="text/javascript" src="${request.getContextPath()}/js/35ff706fd57d11c141cdefcd58d6562b.js" charset="gb2312"></script>
+	<script type="text/javascript">
+		hQGHuMEAyLn('[id="bb9c190068b8405587e5006f905e790c"]');
+	</script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">

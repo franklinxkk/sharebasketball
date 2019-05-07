@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+ #set($spathcontext=${request.getContextPath()}) 
+<head>
+    #parse("header.vm")
+</head>
+<div class="modal-shiftfix">
+#parse("navigation.vm")
+<div class="container-fluid main-content">
+<div class="row">
+<td><input type="hidden" name="page" id="page" value="$!{page}"></td>
+					<td><input type="hidden" name="count" id="count" value="$!{count}"></td>
+					<td><input type="hidden" name="total" id="total" value="$!{total}"></td>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+								<div class="pull-right"><a href="/bblq/admin/gisdevices"><i class="icon-globe"></i></a> <a href="/bblq/admin/toadddevice"><i class="icon-plus"></i></a></div>
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+											<th>序列号</th>
+											<th>经度</th>
+											<th>纬度</th>
+											<th>imsi</th>
+											<th>姿态</th>
+											<th>湿度</th>
+											<th>温度</th>
+											<th>电量</th>
+											<th>信号</th>
+											<th>球序列号</th>
+											<th>状态</th>
+											<th>球箱</th>
+											<th>锁1</th>
+											<th>锁2</th>
+											<th>锁3</th>
+											<th>锁4</th>
+											<th>锁5</th>
+											<th>锁6</th>
+											<th>锁7</th>
+											<th>锁8</th>
+											<th>类型</th>
+											<th>所在球场</th>
+											<th>交易额</th>
+											<th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										#foreach($one in $list)
+											<tr class="odd gradeX">
+												<td>$!one.sn</td>
+												<td>$!one.longitude</td>
+												<td>$!one.latitude</td>
+												<td>$!one.imsi</td>
+												<td>#if($one.stance==0) 正常 #else 横放 #end</td>
+												<td>$!one.wet</td>
+												<td>$!one.temp</td>
+												<td>$!one.power</td>
+												<td>$!one.signalStrength</td>
+												<td>$!one.ballSn</td>
+												<td>
+													#if($!one.state=='0') 离线
+													#elseif($!one.state=='1') 在线
+													#else 维修中
+													#end
+												</td>
+												<td>#if($!one.b==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s1==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s2==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s3==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s4==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s5==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s6==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s7==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.s8==1) 打开 #else 关闭 #end</td>
+												<td>#if($!one.type==1) 一代 #else 其他 #end</td>
+												<td>$!one.courtName</td>
+												<td>$!one.sumTrade</td>		
+												<td>
+													<a href="/bblq/admin/device/init?sn=$!{one.sn}" onclick="return confirmFunc();"><font color="#31ACE2">设备初始化</font></a>
+													<a href="/bblq/admin/device/openballbox?sn=$!{one.sn}" onclick="return confirmFunc();"><font color="#31ACE2">开箱</font></a>
+													<a href="/bblq/admin/device/closeball?sn=$!{one.sn}" onclick="return confirmFunc();"><font color="#31ACE2">结束用球</font></a>
+													<br /><font color="#31ACE2">开储物柜:</font>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=1" onclick="return confirmFunc();"><font color="#31ACE2">1</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=2" onclick="return confirmFunc();"><font color="#31ACE2">2</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=3" onclick="return confirmFunc();"><font color="#31ACE2">3</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=4" onclick="return confirmFunc();"><font color="#31ACE2">4</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=5" onclick="return confirmFunc();"><font color="#31ACE2">5</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=6" onclick="return confirmFunc();"><font color="#31ACE2">6</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=7" onclick="return confirmFunc();"><font color="#31ACE2">7</font></a>
+													<a href="/bblq/admin/device/openstorage?sn=$!{one.sn}&num=8" onclick="return confirmFunc();"><font color="#31ACE2">8 </font></a>									
+													<!--<br /><font color="#31ACE2">开锁ACK模拟:</font>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=0" onclick="return confirmFunc();"><font color="#31ACE2">0</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=1" onclick="return confirmFunc();"><font color="#31ACE2">1</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=2" onclick="return confirmFunc();"><font color="#31ACE2">2</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=3" onclick="return confirmFunc();"><font color="#31ACE2">3</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=4" onclick="return confirmFunc();"><font color="#31ACE2">4</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=5" onclick="return confirmFunc();"><font color="#31ACE2">5</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=6" onclick="return confirmFunc();"><font color="#31ACE2">6</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=7" onclick="return confirmFunc();"><font color="#31ACE2">7</font></a>
+													<a href="/bblq/admin/device/ack?sn=$!{one.sn}&num=8" onclick="return confirmFunc();"><font color="#31ACE2">8</font></a>-->
+												</td>	
+											</tr>
+										#end                                                                             
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="kkpager"></div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+</div><!-- row end -->
+</div><!-- main-content end -->
+</body>
+</html>
+<script type="text/javascript">
+	var cpage = document.getElementById("page").value;
+	var count = document.getElementById("count").value;
+	var total = document.getElementById("total").value;
+	var url=window.location.href;  
+	var addr = url.substring(0,url.indexOf('bblq'));
+//生成分页控件  
+kkpager.generPageHtml({
+    pno : cpage,
+    mode : 'link', //可选，默认就是link
+    //总页码  
+    total : total,  
+    //总数据条数  
+    totalRecords : count,  
+    //链接算法
+    getLink : function(n){
+        //这里是默认算法，算法适用于比如：
+
+        if(n == 1){
+            return addr+'bblq/admin/getdevices?page='+n;
+        }
+        return addr+'bblq/admin/getdevices?page='+n;
+    }
+
+});
+</script>	
+#include("foot.vm")
